@@ -2,11 +2,6 @@
 # PRE-PUSH HOOK - RUNS TESTS BEFORE PUSHING
 # ============================================================================
 
-# Change to the api-service directory
-cd api-service || {
-  echo "Error: Could not change to api-service directory"
-  exit 1
-}
 
 # Run tests
 echo "Running tests..."
