@@ -11,7 +11,8 @@ import { redisStore } from 'cache-manager-redis-yet';
     CacheModule.registerAsync({
       isGlobal: true,
       useFactory: async (configService: ConfigService) => {
-        const redisEnabled = configService.get<string>('REDIS_ENABLED') === 'true';
+        const redisEnabled =
+          configService.get<string>('REDIS_ENABLED') === 'true';
 
         if (!redisEnabled) {
           return {
@@ -20,7 +21,9 @@ import { redisStore } from 'cache-manager-redis-yet';
         }
 
         const host = configService.get<string>('REDIS_HOST', 'localhost');
-        const port = Number(configService.get<string | number>('REDIS_PORT', 6379));
+        const port = Number(
+          configService.get<string | number>('REDIS_PORT', 6379),
+        );
         // const password = configService.get<string>('REDIS_PASSWORD');
         // const username = configService.get<string>('REDIS_USER', 'default');
 
@@ -41,4 +44,4 @@ import { redisStore } from 'cache-manager-redis-yet';
   ],
   exports: [CacheModule],
 })
-export class RedisModule { }
+export class RedisModule {}
