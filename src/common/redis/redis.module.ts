@@ -2,7 +2,7 @@
 import { Module, Global } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigService } from '@nestjs/config';
-import { redisStore } from 'cache-manager-redis-yet';
+import KeyvRedis from '@keyv/redis';
 
 // ==================== Module ========================
 @Global()
@@ -10,38 +10,28 @@ import { redisStore } from 'cache-manager-redis-yet';
   imports: [
     CacheModule.registerAsync({
       isGlobal: true,
-      useFactory: async (configService: ConfigService) => {
+      useFactory: (configService: ConfigService) => {
         const redisEnabled =
           configService.get<string>('REDIS_ENABLED') === 'true';
 
-        if (!redisEnabled) {
-          return {
-            ttl: 600,
-          };
+        const config: any = {
+          ttl: 600,
+        };
+
+        if (redisEnabled) {
+          const host = configService.get<string>('REDIS_HOST', 'localhost');
+          const port = Number(
+            configService.get<string | number>('REDIS_PORT', 6379),
+          );
+
+          config.store = new KeyvRedis(`redis://${host}:${port}`);
         }
 
-        const host = configService.get<string>('REDIS_HOST', 'localhost');
-        const port = Number(
-          configService.get<string | number>('REDIS_PORT', 6379),
-        );
-        // const password = configService.get<string>('REDIS_PASSWORD');
-        // const username = configService.get<string>('REDIS_USER', 'default');
-
-        return {
-          store: await redisStore({
-            socket: {
-              host,
-              port,
-            },
-            // password,
-            // username,
-            ttl: 600,
-          }),
-        };
+        return config;
       },
       inject: [ConfigService],
     }),
   ],
   exports: [CacheModule],
 })
-export class RedisModule {}
+export class RedisModule { }
