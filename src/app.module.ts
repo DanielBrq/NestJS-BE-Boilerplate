@@ -5,6 +5,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthModule, AuthGuard } from '@thallesp/nestjs-better-auth';
 import { auth } from './auth/auth';
 import { UserModule } from './user/user.module';
+import { RedisModule } from './common/redis/redis.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './user/user.module';
         rawBody: true,
       },
     }),
+    RedisModule,
     UserModule,
   ],
   providers: [
@@ -49,4 +51,4 @@ import { UserModule } from './user/user.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
