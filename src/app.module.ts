@@ -51,4 +51,4 @@ import { RedisModule } from './common/redis/redis.module';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}
