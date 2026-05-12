@@ -20,7 +20,7 @@ async function bootstrap() {
   );
 
   // Helmet
-  await app.register(helmet, {
+  await app.register(helmet as any, {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: [`'self'`],
