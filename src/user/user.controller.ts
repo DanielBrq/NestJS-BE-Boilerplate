@@ -25,10 +25,10 @@ import {
 @ApiBearerAuth()
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   // Sign Up ==========================================
-  @Post('sign-up-email')
+  @Post('sign-up')
   @HttpCode(201)
   @ApiBody({ type: CreateUserBodyDto })
   @UsePipes(new VineValidationPipe(CreateUserSchema))
@@ -42,7 +42,7 @@ export class UserController {
   }
 
   // Sign In ==========================================
-  @Post('sign-in-email')
+  @Post('sign-in')
   @HttpCode(200)
   @ApiBody({ type: SignInEmailBodyDto })
   @UsePipes(new VineValidationPipe(SignInEmailSchema))
