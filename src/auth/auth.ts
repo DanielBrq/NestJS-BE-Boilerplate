@@ -2,7 +2,8 @@
 import 'dotenv/config';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { bearer } from 'better-auth/plugins';
+import { bearer, admin, organization } from 'better-auth/plugins';
+import * as accessControl from "../auth/permissions";
 import { PrismaClient } from '../generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
@@ -15,14 +16,36 @@ const adapter = new PrismaPg(pool);
 export const prisma = new PrismaClient({ adapter });
 
 // ======== Better Auth Configuration =============
-export const auth = betterAuth({
+export const auth: any = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
   emailAndPassword: {
     enabled: true,
   },
-  plugins: [bearer()], // Delete if you want to use cookies instead of tokens
+  plugins: [
+    bearer(),  // Delete if you want to use cookies instead of tokens
+    admin(),
+    organization({
+      statements: accessControl.ac,
+      roles: {
+        member: accessControl.member,
+        owner: accessControl.owner,
+        admin: accessControl.admin,
+        superAdmin: accessControl.superAdmin,
+      },
+    })
+  ],
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60 * 1000, // 5 minutes
+      staleWhileRevalidate: true,
+    }
+  },
+  secret: process.env.BETTER_AUTH_SECRET,
+  baseURL: process.env.BASE_URL,
+  trustedOrigins: [process.env.BETTER_AUTH_TRUSTED_ORIGINS!],
   advanced: {
     useSecureCookies: process.env.NODE_ENV === 'production',
   },
