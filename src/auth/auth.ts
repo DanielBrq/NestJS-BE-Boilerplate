@@ -1,3 +1,4 @@
+import { v7 as uuidv7 } from 'uuid';
 // ======== Imports ==============
 import 'dotenv/config';
 import { betterAuth } from 'better-auth';
@@ -20,6 +21,10 @@ export const auth: any = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
+  advanced: {
+    generateId: () => uuidv7(),
+    useSecureCookies: process.env.NODE_ENV === 'production',
+  },
   emailAndPassword: {
     enabled: true,
   },
@@ -46,7 +51,4 @@ export const auth: any = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BASE_URL,
   trustedOrigins: [process.env.BETTER_AUTH_TRUSTED_ORIGINS!],
-  advanced: {
-    useSecureCookies: process.env.NODE_ENV === 'production',
-  },
 });

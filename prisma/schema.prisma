@@ -10,11 +10,14 @@ datasource db {
 // ====== Better Auth Schema ======
 
 model User {
-  id            String    @id
+  id            String    @id @default(uuid(7))
   name          String
   email         String
+  nationalId    String    @unique @default("")
+  bornDate      DateTime  @default(now())
   emailVerified Boolean   @default(false)
   image         String?
+  isDriver      Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
@@ -25,15 +28,23 @@ model User {
   banReason  String?
   banExpires DateTime?
 
-  members     Member[]
-  invitations Invitation[]
+  members          Member[]
+  invitations      Invitation[]
+  vehicles         Vehicle[]
+  driverRequests   DriverRequest[]
+  driverSchedules  DriverSchedule[]
+  userRides        UserRide[]
+  scheduleRequests ScheduleRequest[]
+  driverChats      Chat[]            @relation("ChatDriver")
+  passengerChats   Chat[]            @relation("ChatPassenger")
+  messages         Message[]
 
   @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @default(uuid(7))
   expiresAt DateTime
   token     String
   createdAt DateTime @default(now())
@@ -53,7 +64,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
+  id                    String    @id @default(uuid(7))
   accountId             String
   providerId            String
   userId                String
@@ -73,7 +84,7 @@ model Account {
 }
 
 model Verification {
-  id         String   @id
+  id         String   @id @default(uuid(7))
   identifier String
   value      String
   expiresAt  DateTime
@@ -85,9 +96,10 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id
+  id          String       @id @default(uuid(7))
   name        String
   slug        String
+  type        String //free_zone,  company
   logo        String?
   createdAt   DateTime
   metadata    String?
@@ -99,7 +111,7 @@ model Organization {
 }
 
 model Member {
-  id             String       @id
+  id             String       @id @default(uuid(7))
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   userId         String
@@ -113,7 +125,7 @@ model Member {
 }
 
 model Invitation {
-  id             String       @id
+  id             String       @id @default(uuid(7))
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   email          String
@@ -130,3 +142,133 @@ model Invitation {
 }
 
 // ====== Schema ======
+
+model Vehicle {
+  id              String           @id @default(uuid(7))
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  image           String?
+  plate           String
+  brand           String
+  model           String
+  color           String
+  doors           Int
+  isActive        Boolean          @default(true)
+  driverRequests  DriverRequest[]
+  driverSchedules DriverSchedule[]
+
+  @@unique([plate])
+  @@index([userId])
+  @@map("vehicle")
+}
+
+model DriverRequest {
+  id              String   @id @default(uuid(7))
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicleId       String
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  status          String   @default("pending") //pending, approved, rejected
+  rejectionReason String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([vehicleId])
+  @@map("driver_request")
+}
+
+model DriverSchedule {
+  id                  String            @id @default(uuid(7))
+  userId              String
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicleId           String
+  vehicle             Vehicle           @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title               String
+  body                String
+  scheduleType        String            @default("daily") //daily, weekly
+  daysOfWeek          String[] // ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+  maxPassengers       Int               @default(1)
+  currentPassengers   Int               @default(0)
+  fromPlaceName       String?
+  fromPlaceCoords     String?
+  fromPlaceDateTime   DateTime          @default(now())
+  toPlaceName         String?
+  toPlaceCoords       String?
+  isScheduleAvailable Boolean           @default(true)
+  isActive            Boolean           @default(true)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  userRides           UserRide[]
+  scheduleRequests    ScheduleRequest[]
+  chats               Chat[]
+
+  @@index([userId])
+  @@map("driver_schedule")
+}
+
+model UserRide {
+  id               String         @id @default(uuid(7))
+  userId           String
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  driverScheduleId String
+  driverSchedule   DriverSchedule @relation(fields: [driverScheduleId], references: [id], onDelete: Cascade)
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([driverScheduleId])
+  @@map("user_ride")
+}
+
+model ScheduleRequest {
+  id               String         @id @default(uuid(7))
+  userId           String
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status           String         @default("pending") //pending, approved, rejected
+  driverScheduleId String
+  driverSchedule   DriverSchedule @relation(fields: [driverScheduleId], references: [id], onDelete: Cascade)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([driverScheduleId])
+  @@map("schedule_request")
+}
+
+model Chat {
+  id        String @id @default(uuid(7))
+  type      String //private, group
+  uniqueKey String @unique // Prevents duplicate chats between users and group chats
+
+  driverScheduleId String? //(if type = group, this is the driver schedule)
+  driverSchedule   DriverSchedule? @relation(fields: [driverScheduleId], references: [id], onDelete: Cascade)
+  userDriverId     String? //(if type = private, this is the driver)
+  userDriver       User?           @relation("ChatDriver", fields: [userDriverId], references: [id], onDelete: Cascade)
+  userPassengerId  String? //(if type = private, this is the user)
+  userPassenger    User?           @relation("ChatPassenger", fields: [userPassengerId], references: [id], onDelete: Cascade)
+  messages         Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userDriverId, userPassengerId]) //unique relation between private chat between user and driver
+  @@index([userDriverId, userPassengerId]) // index between user and driver
+  @@index([driverScheduleId]) // index for group chat
+  @@index([uniqueKey]) // index for unique key
+  @@map("chat")
+}
+
+model Message {
+  id        String   @id @default(uuid(7))
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderId  String
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("message")
+}
