@@ -8,8 +8,8 @@ import {
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from '@fastify/helmet';
-import { AppModule } from './app.module';
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { AppModule } from '@/app.module';
+import { TimeoutInterceptor } from '@/common/interceptors/timeout.interceptor';
 
 // ======== Bootstrap =============
 async function bootstrap() {

@@ -1,7 +1,8 @@
 // =========== Imports ============
-import { auth } from '../auth/auth';
+import { auth } from '@/auth/auth';
 import { Injectable, Inject } from '@nestjs/common';
-import { PrismaClient } from '../generated';
+import { PrismaClient } from '@/generated';
+import { AuthRole } from '@/common/enums/roles';
 
 // =========== Repository ============
 
@@ -10,7 +11,7 @@ export class UserRepository {
   constructor(
     private prisma: PrismaClient,
     @Inject('BETTER_AUTH') private betterAuth: typeof auth,
-  ) {}
+  ) { }
 
   // ==================== BetterAuth methods ========================
 
@@ -19,12 +20,14 @@ export class UserRepository {
     email: string,
     password: string,
     name: string,
+    role?: AuthRole,
   ): Promise<unknown> {
     return this.betterAuth.api.signUpEmail({
       body: {
         email,
         password,
         name,
+        role,
       },
     });
   }

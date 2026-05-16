@@ -3,8 +3,17 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthModule, AuthGuard } from '@thallesp/nestjs-better-auth';
-import { auth } from './auth/auth';
-import { UserModule } from './user/user.module';
+import { auth } from '@/auth/auth';
+import { UserModule } from '@/user/user.module';
+import { OrganizationController } from '@/organization/organization.controller';
+import { OrganizationModule } from '@/organization/organization.module';
+import { VehicleModule } from '@/vehicle/vehicle.module';
+import { DriverRequestModule } from '@/driver-request/driver-request.module';
+import { DriverScheduleModule } from '@/driver-schedule/driver-schedule.module';
+import { UserRideModule } from '@/user-ride/user-ride.module';
+import { ScheduleRequestModule } from '@/schedule-request/schedule-request.module';
+import { ChatModule } from '@/chat/chat.module';
+import { MessageModule } from '@/message/message.module';
 
 @Module({
   imports: [
@@ -37,6 +46,14 @@ import { UserModule } from './user/user.module';
       },
     }),
     UserModule,
+    OrganizationModule,
+    VehicleModule,
+    DriverRequestModule,
+    DriverScheduleModule,
+    UserRideModule,
+    ScheduleRequestModule,
+    ChatModule,
+    MessageModule,
   ],
   providers: [
     {
@@ -48,5 +65,6 @@ import { UserModule } from './user/user.module';
       useClass: AuthGuard,
     },
   ],
+  controllers: [OrganizationController],
 })
-export class AppModule {}
+export class AppModule { }

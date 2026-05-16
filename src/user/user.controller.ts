@@ -8,8 +8,8 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { VineValidationPipe } from '../common/pipes/vine-validation.pipe';
+import { UserService } from '@/user/user.service';
+import { VineValidationPipe } from '@/common/pipes/vine-validation.pipe';
 import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 import {
   CreateUserSchema,
@@ -18,7 +18,7 @@ import {
   SignInEmailBodyDto,
   type CreateUserDto,
   type SignInEmailDto,
-} from './dto';
+} from '@/user/dto';
 
 // =========== Controller ============
 @ApiTags('User')

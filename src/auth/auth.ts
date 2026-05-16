@@ -4,8 +4,8 @@ import 'dotenv/config';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { bearer, admin, organization } from 'better-auth/plugins';
-import * as accessControl from "../auth/permissions";
-import { PrismaClient } from '../generated/prisma/client.js';
+import * as accessControl from "@/auth/permissions";
+import { PrismaClient } from '@/generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 

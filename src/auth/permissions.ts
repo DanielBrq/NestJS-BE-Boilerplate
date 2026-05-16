@@ -1,4 +1,5 @@
 import { createAccessControl } from "better-auth/plugins/access";
+import { AuthRole } from "@/common/enums/roles";
 
 const statement = {
     // Inherited permissions
@@ -11,7 +12,7 @@ const statement = {
 export const ac = createAccessControl(statement);
 
 export const member = ac.newRole({
-    ...ac.statements,
+    project: ["create", "read", "update", "delete"],
 });
 
 export const admin = ac.newRole({
@@ -31,3 +32,10 @@ export const superAdmin = ac.newRole({
     owner: ["create", "read", "update", "delete"],
     superAdmin: ["create", "read", "update", "delete"],
 });
+
+export const AuthRoleMap = {
+    [AuthRole.MEMBER]: member,
+    [AuthRole.ADMIN]: admin,
+    [AuthRole.OWNER]: owner,
+    [AuthRole.SUPER_ADMIN]: superAdmin,
+} as const;
