@@ -25,6 +25,22 @@ export const auth: any = betterAuth({
     generateId: () => uuidv7(),
     useSecureCookies: process.env.NODE_ENV === 'production',
   },
+  user: {
+    additionalFields: {
+      nationalId: {
+        type: "string",
+        required: false,
+      },
+      bornDate: {
+        type: "date",
+        required: false,
+      },
+      isDriver: {
+        type: "boolean",
+        required: false,
+      }
+    }
+  },
   emailAndPassword: {
     enabled: true,
   },

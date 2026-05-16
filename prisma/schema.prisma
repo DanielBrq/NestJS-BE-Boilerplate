@@ -10,6 +10,7 @@ datasource db {
 // ====== Better Auth Schema ======
 
 enum AuthRole {
+  user
   member
   admin
   owner

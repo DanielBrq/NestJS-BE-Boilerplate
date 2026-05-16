@@ -35,7 +35,7 @@ export type UserMinAggregateOutputType = {
   isDriver: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
-  role: string | null
+  role: $Enums.AuthRole | null
   banned: boolean | null
   banReason: string | null
   banExpires: Date | null
@@ -52,7 +52,7 @@ export type UserMaxAggregateOutputType = {
   isDriver: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
-  role: string | null
+  role: $Enums.AuthRole | null
   banned: boolean | null
   banReason: string | null
   banExpires: Date | null
@@ -212,7 +212,7 @@ export type UserGroupByOutputType = {
   isDriver: boolean
   createdAt: Date
   updatedAt: Date
-  role: string | null
+  role: $Enums.AuthRole | null
   banned: boolean | null
   banReason: string | null
   banExpires: Date | null
@@ -250,7 +250,7 @@ export type UserWhereInput = {
   isDriver?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  role?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumAuthRoleNullableFilter<"User"> | $Enums.AuthRole | null
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -258,6 +258,14 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter
   members?: Prisma.MemberListRelationFilter
   invitations?: Prisma.InvitationListRelationFilter
+  vehicles?: Prisma.VehicleListRelationFilter
+  driverRequests?: Prisma.DriverRequestListRelationFilter
+  driverSchedules?: Prisma.DriverScheduleListRelationFilter
+  userRides?: Prisma.UserRideListRelationFilter
+  scheduleRequests?: Prisma.ScheduleRequestListRelationFilter
+  driverChats?: Prisma.ChatListRelationFilter
+  passengerChats?: Prisma.ChatListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -279,23 +287,31 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   members?: Prisma.MemberOrderByRelationAggregateInput
   invitations?: Prisma.InvitationOrderByRelationAggregateInput
+  vehicles?: Prisma.VehicleOrderByRelationAggregateInput
+  driverRequests?: Prisma.DriverRequestOrderByRelationAggregateInput
+  driverSchedules?: Prisma.DriverScheduleOrderByRelationAggregateInput
+  userRides?: Prisma.UserRideOrderByRelationAggregateInput
+  scheduleRequests?: Prisma.ScheduleRequestOrderByRelationAggregateInput
+  driverChats?: Prisma.ChatOrderByRelationAggregateInput
+  passengerChats?: Prisma.ChatOrderByRelationAggregateInput
+  messages?: Prisma.MessageOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  nationalId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
-  nationalId?: Prisma.StringFilter<"User"> | string
   bornDate?: Prisma.DateTimeFilter<"User"> | Date | string
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   image?: Prisma.StringNullableFilter<"User"> | string | null
   isDriver?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  role?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumAuthRoleNullableFilter<"User"> | $Enums.AuthRole | null
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -303,7 +319,15 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AccountListRelationFilter
   members?: Prisma.MemberListRelationFilter
   invitations?: Prisma.InvitationListRelationFilter
-}, "id" | "email">
+  vehicles?: Prisma.VehicleListRelationFilter
+  driverRequests?: Prisma.DriverRequestListRelationFilter
+  driverSchedules?: Prisma.DriverScheduleListRelationFilter
+  userRides?: Prisma.UserRideListRelationFilter
+  scheduleRequests?: Prisma.ScheduleRequestListRelationFilter
+  driverChats?: Prisma.ChatListRelationFilter
+  passengerChats?: Prisma.ChatListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+}, "id" | "nationalId" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -339,7 +363,7 @@ export type UserScalarWhereWithAggregatesInput = {
   isDriver?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  role?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  role?: Prisma.EnumAuthRoleNullableWithAggregatesFilter<"User"> | $Enums.AuthRole | null
   banned?: Prisma.BoolNullableWithAggregatesFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   banExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -349,14 +373,14 @@ export type UserCreateInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
@@ -364,20 +388,28 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   members?: Prisma.MemberCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
@@ -385,6 +417,14 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserUpdateInput = {
@@ -398,7 +438,7 @@ export type UserUpdateInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -406,6 +446,14 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -419,7 +467,7 @@ export type UserUncheckedUpdateInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -427,20 +475,28 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
@@ -457,7 +513,7 @@ export type UserUpdateManyMutationInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -474,7 +530,7 @@ export type UserUncheckedUpdateManyInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -536,6 +592,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -550,6 +611,10 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableEnumAuthRoleFieldUpdateOperationsInput = {
+  set?: $Enums.AuthRole | null
 }
 
 export type NullableBoolFieldUpdateOperationsInput = {
@@ -616,44 +681,176 @@ export type UserUpdateOneRequiredWithoutInvitationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvitationsInput, Prisma.UserUpdateWithoutInvitationsInput>, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
 }
 
+export type UserCreateNestedOneWithoutVehiclesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVehiclesInput, Prisma.UserUncheckedCreateWithoutVehiclesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVehiclesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutVehiclesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVehiclesInput, Prisma.UserUncheckedCreateWithoutVehiclesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVehiclesInput
+  upsert?: Prisma.UserUpsertWithoutVehiclesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVehiclesInput, Prisma.UserUpdateWithoutVehiclesInput>, Prisma.UserUncheckedUpdateWithoutVehiclesInput>
+}
+
+export type UserCreateNestedOneWithoutDriverRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverRequestsInput, Prisma.UserUncheckedCreateWithoutDriverRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDriverRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverRequestsInput, Prisma.UserUncheckedCreateWithoutDriverRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverRequestsInput
+  upsert?: Prisma.UserUpsertWithoutDriverRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDriverRequestsInput, Prisma.UserUpdateWithoutDriverRequestsInput>, Prisma.UserUncheckedUpdateWithoutDriverRequestsInput>
+}
+
+export type UserCreateNestedOneWithoutDriverSchedulesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverSchedulesInput, Prisma.UserUncheckedCreateWithoutDriverSchedulesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverSchedulesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDriverSchedulesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverSchedulesInput, Prisma.UserUncheckedCreateWithoutDriverSchedulesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverSchedulesInput
+  upsert?: Prisma.UserUpsertWithoutDriverSchedulesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDriverSchedulesInput, Prisma.UserUpdateWithoutDriverSchedulesInput>, Prisma.UserUncheckedUpdateWithoutDriverSchedulesInput>
+}
+
+export type UserCreateNestedOneWithoutUserRidesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserRidesInput, Prisma.UserUncheckedCreateWithoutUserRidesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserRidesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserRidesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserRidesInput, Prisma.UserUncheckedCreateWithoutUserRidesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserRidesInput
+  upsert?: Prisma.UserUpsertWithoutUserRidesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserRidesInput, Prisma.UserUpdateWithoutUserRidesInput>, Prisma.UserUncheckedUpdateWithoutUserRidesInput>
+}
+
+export type UserCreateNestedOneWithoutScheduleRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleRequestsInput, Prisma.UserUncheckedCreateWithoutScheduleRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleRequestsInput, Prisma.UserUncheckedCreateWithoutScheduleRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleRequestsInput
+  upsert?: Prisma.UserUpsertWithoutScheduleRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleRequestsInput, Prisma.UserUpdateWithoutScheduleRequestsInput>, Prisma.UserUncheckedUpdateWithoutScheduleRequestsInput>
+}
+
+export type UserCreateNestedOneWithoutDriverChatsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverChatsInput, Prisma.UserUncheckedCreateWithoutDriverChatsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverChatsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutPassengerChatsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPassengerChatsInput, Prisma.UserUncheckedCreateWithoutPassengerChatsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPassengerChatsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutDriverChatsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDriverChatsInput, Prisma.UserUncheckedCreateWithoutDriverChatsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDriverChatsInput
+  upsert?: Prisma.UserUpsertWithoutDriverChatsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDriverChatsInput, Prisma.UserUpdateWithoutDriverChatsInput>, Prisma.UserUncheckedUpdateWithoutDriverChatsInput>
+}
+
+export type UserUpdateOneWithoutPassengerChatsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPassengerChatsInput, Prisma.UserUncheckedCreateWithoutPassengerChatsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPassengerChatsInput
+  upsert?: Prisma.UserUpsertWithoutPassengerChatsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPassengerChatsInput, Prisma.UserUpdateWithoutPassengerChatsInput>, Prisma.UserUncheckedUpdateWithoutPassengerChatsInput>
+}
+
+export type UserCreateNestedOneWithoutMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMessagesInput
+  upsert?: Prisma.UserUpsertWithoutMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMessagesInput, Prisma.UserUpdateWithoutMessagesInput>, Prisma.UserUncheckedUpdateWithoutMessagesInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   members?: Prisma.MemberCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -683,13 +880,21 @@ export type UserUpdateWithoutSessionsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -703,53 +908,77 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   members?: Prisma.MemberCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -779,13 +1008,21 @@ export type UserUpdateWithoutAccountsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -799,53 +1036,77 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutMembersInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutMembersInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutMembersInput = {
@@ -875,13 +1136,21 @@ export type UserUpdateWithoutMembersInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMembersInput = {
@@ -895,53 +1164,77 @@ export type UserUncheckedUpdateWithoutMembersInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
 }
 
 export type UserCreateWithoutInvitationsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
 }
 
 export type UserUncheckedCreateWithoutInvitationsInput = {
   id?: string
   name: string
   email: string
-  nationalId: string
-  bornDate: Date | string
+  nationalId?: string
+  bornDate?: Date | string
   emailVerified?: boolean
   image?: string | null
   isDriver?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  role?: string | null
+  role?: $Enums.AuthRole | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
 }
 
 export type UserCreateOrConnectWithoutInvitationsInput = {
@@ -971,13 +1264,21 @@ export type UserUpdateWithoutInvitationsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvitationsInput = {
@@ -991,13 +1292,1045 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutVehiclesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutVehiclesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutVehiclesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVehiclesInput, Prisma.UserUncheckedCreateWithoutVehiclesInput>
+}
+
+export type UserUpsertWithoutVehiclesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVehiclesInput, Prisma.UserUncheckedUpdateWithoutVehiclesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVehiclesInput, Prisma.UserUncheckedCreateWithoutVehiclesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVehiclesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVehiclesInput, Prisma.UserUncheckedUpdateWithoutVehiclesInput>
+}
+
+export type UserUpdateWithoutVehiclesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVehiclesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutDriverRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutDriverRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutDriverRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverRequestsInput, Prisma.UserUncheckedCreateWithoutDriverRequestsInput>
+}
+
+export type UserUpsertWithoutDriverRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDriverRequestsInput, Prisma.UserUncheckedUpdateWithoutDriverRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverRequestsInput, Prisma.UserUncheckedCreateWithoutDriverRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDriverRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDriverRequestsInput, Prisma.UserUncheckedUpdateWithoutDriverRequestsInput>
+}
+
+export type UserUpdateWithoutDriverRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDriverRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutDriverSchedulesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutDriverSchedulesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutDriverSchedulesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverSchedulesInput, Prisma.UserUncheckedCreateWithoutDriverSchedulesInput>
+}
+
+export type UserUpsertWithoutDriverSchedulesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDriverSchedulesInput, Prisma.UserUncheckedUpdateWithoutDriverSchedulesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverSchedulesInput, Prisma.UserUncheckedCreateWithoutDriverSchedulesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDriverSchedulesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDriverSchedulesInput, Prisma.UserUncheckedUpdateWithoutDriverSchedulesInput>
+}
+
+export type UserUpdateWithoutDriverSchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDriverSchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutUserRidesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutUserRidesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutUserRidesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserRidesInput, Prisma.UserUncheckedCreateWithoutUserRidesInput>
+}
+
+export type UserUpsertWithoutUserRidesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserRidesInput, Prisma.UserUncheckedUpdateWithoutUserRidesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserRidesInput, Prisma.UserUncheckedCreateWithoutUserRidesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserRidesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserRidesInput, Prisma.UserUncheckedUpdateWithoutUserRidesInput>
+}
+
+export type UserUpdateWithoutUserRidesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserRidesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutScheduleRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutScheduleRequestsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutScheduleRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleRequestsInput, Prisma.UserUncheckedCreateWithoutScheduleRequestsInput>
+}
+
+export type UserUpsertWithoutScheduleRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleRequestsInput, Prisma.UserUncheckedUpdateWithoutScheduleRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleRequestsInput, Prisma.UserUncheckedCreateWithoutScheduleRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleRequestsInput, Prisma.UserUncheckedUpdateWithoutScheduleRequestsInput>
+}
+
+export type UserUpdateWithoutScheduleRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutDriverChatsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutDriverChatsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutDriverChatsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverChatsInput, Prisma.UserUncheckedCreateWithoutDriverChatsInput>
+}
+
+export type UserCreateWithoutPassengerChatsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+}
+
+export type UserUncheckedCreateWithoutPassengerChatsInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type UserCreateOrConnectWithoutPassengerChatsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPassengerChatsInput, Prisma.UserUncheckedCreateWithoutPassengerChatsInput>
+}
+
+export type UserUpsertWithoutDriverChatsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDriverChatsInput, Prisma.UserUncheckedUpdateWithoutDriverChatsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDriverChatsInput, Prisma.UserUncheckedCreateWithoutDriverChatsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDriverChatsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDriverChatsInput, Prisma.UserUncheckedUpdateWithoutDriverChatsInput>
+}
+
+export type UserUpdateWithoutDriverChatsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDriverChatsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUpsertWithoutPassengerChatsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPassengerChatsInput, Prisma.UserUncheckedUpdateWithoutPassengerChatsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPassengerChatsInput, Prisma.UserUncheckedCreateWithoutPassengerChatsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPassengerChatsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPassengerChatsInput, Prisma.UserUncheckedUpdateWithoutPassengerChatsInput>
+}
+
+export type UserUpdateWithoutPassengerChatsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPassengerChatsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserCreateWithoutMessagesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatCreateNestedManyWithoutUserPassengerInput
+}
+
+export type UserUncheckedCreateWithoutMessagesInput = {
+  id?: string
+  name: string
+  email: string
+  nationalId?: string
+  bornDate?: Date | string
+  emailVerified?: boolean
+  image?: string | null
+  isDriver?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: $Enums.AuthRole | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  members?: Prisma.MemberUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutUserInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutUserInput
+  driverRequests?: Prisma.DriverRequestUncheckedCreateNestedManyWithoutUserInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedCreateNestedManyWithoutUserInput
+  userRides?: Prisma.UserRideUncheckedCreateNestedManyWithoutUserInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedCreateNestedManyWithoutUserInput
+  driverChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserDriverInput
+  passengerChats?: Prisma.ChatUncheckedCreateNestedManyWithoutUserPassengerInput
+}
+
+export type UserCreateOrConnectWithoutMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+}
+
+export type UserUpsertWithoutMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMessagesInput, Prisma.UserUncheckedUpdateWithoutMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMessagesInput, Prisma.UserUncheckedCreateWithoutMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMessagesInput, Prisma.UserUncheckedUpdateWithoutMessagesInput>
+}
+
+export type UserUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUpdateManyWithoutUserPassengerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nationalId?: Prisma.StringFieldUpdateOperationsInput | string
+  bornDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDriver?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableEnumAuthRoleFieldUpdateOperationsInput | $Enums.AuthRole | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  members?: Prisma.MemberUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutUserNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutUserNestedInput
+  driverRequests?: Prisma.DriverRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverSchedules?: Prisma.DriverScheduleUncheckedUpdateManyWithoutUserNestedInput
+  userRides?: Prisma.UserRideUncheckedUpdateManyWithoutUserNestedInput
+  scheduleRequests?: Prisma.ScheduleRequestUncheckedUpdateManyWithoutUserNestedInput
+  driverChats?: Prisma.ChatUncheckedUpdateManyWithoutUserDriverNestedInput
+  passengerChats?: Prisma.ChatUncheckedUpdateManyWithoutUserPassengerNestedInput
 }
 
 
@@ -1010,6 +2343,14 @@ export type UserCountOutputType = {
   accounts: number
   members: number
   invitations: number
+  vehicles: number
+  driverRequests: number
+  driverSchedules: number
+  userRides: number
+  scheduleRequests: number
+  driverChats: number
+  passengerChats: number
+  messages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1017,6 +2358,14 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   members?: boolean | UserCountOutputTypeCountMembersArgs
   invitations?: boolean | UserCountOutputTypeCountInvitationsArgs
+  vehicles?: boolean | UserCountOutputTypeCountVehiclesArgs
+  driverRequests?: boolean | UserCountOutputTypeCountDriverRequestsArgs
+  driverSchedules?: boolean | UserCountOutputTypeCountDriverSchedulesArgs
+  userRides?: boolean | UserCountOutputTypeCountUserRidesArgs
+  scheduleRequests?: boolean | UserCountOutputTypeCountScheduleRequestsArgs
+  driverChats?: boolean | UserCountOutputTypeCountDriverChatsArgs
+  passengerChats?: boolean | UserCountOutputTypeCountPassengerChatsArgs
+  messages?: boolean | UserCountOutputTypeCountMessagesArgs
 }
 
 /**
@@ -1057,6 +2406,62 @@ export type UserCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Type
   where?: Prisma.InvitationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountVehiclesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VehicleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDriverRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DriverRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDriverSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DriverScheduleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserRidesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserRideWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDriverChatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPassengerChatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1077,6 +2482,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   members?: boolean | Prisma.User$membersArgs<ExtArgs>
   invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
+  vehicles?: boolean | Prisma.User$vehiclesArgs<ExtArgs>
+  driverRequests?: boolean | Prisma.User$driverRequestsArgs<ExtArgs>
+  driverSchedules?: boolean | Prisma.User$driverSchedulesArgs<ExtArgs>
+  userRides?: boolean | Prisma.User$userRidesArgs<ExtArgs>
+  scheduleRequests?: boolean | Prisma.User$scheduleRequestsArgs<ExtArgs>
+  driverChats?: boolean | Prisma.User$driverChatsArgs<ExtArgs>
+  passengerChats?: boolean | Prisma.User$passengerChatsArgs<ExtArgs>
+  messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1137,6 +2550,14 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   members?: boolean | Prisma.User$membersArgs<ExtArgs>
   invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
+  vehicles?: boolean | Prisma.User$vehiclesArgs<ExtArgs>
+  driverRequests?: boolean | Prisma.User$driverRequestsArgs<ExtArgs>
+  driverSchedules?: boolean | Prisma.User$driverSchedulesArgs<ExtArgs>
+  userRides?: boolean | Prisma.User$userRidesArgs<ExtArgs>
+  scheduleRequests?: boolean | Prisma.User$scheduleRequestsArgs<ExtArgs>
+  driverChats?: boolean | Prisma.User$driverChatsArgs<ExtArgs>
+  passengerChats?: boolean | Prisma.User$passengerChatsArgs<ExtArgs>
+  messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1149,6 +2570,14 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     members: Prisma.$MemberPayload<ExtArgs>[]
     invitations: Prisma.$InvitationPayload<ExtArgs>[]
+    vehicles: Prisma.$VehiclePayload<ExtArgs>[]
+    driverRequests: Prisma.$DriverRequestPayload<ExtArgs>[]
+    driverSchedules: Prisma.$DriverSchedulePayload<ExtArgs>[]
+    userRides: Prisma.$UserRidePayload<ExtArgs>[]
+    scheduleRequests: Prisma.$ScheduleRequestPayload<ExtArgs>[]
+    driverChats: Prisma.$ChatPayload<ExtArgs>[]
+    passengerChats: Prisma.$ChatPayload<ExtArgs>[]
+    messages: Prisma.$MessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1161,7 +2590,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     isDriver: boolean
     createdAt: Date
     updatedAt: Date
-    role: string | null
+    role: $Enums.AuthRole | null
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
@@ -1563,6 +2992,14 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   members<T extends Prisma.User$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitations<T extends Prisma.User$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vehicles<T extends Prisma.User$vehiclesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  driverRequests<T extends Prisma.User$driverRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driverRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  driverSchedules<T extends Prisma.User$driverSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driverSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userRides<T extends Prisma.User$userRidesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userRidesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserRidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  scheduleRequests<T extends Prisma.User$scheduleRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  driverChats<T extends Prisma.User$driverChatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driverChatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passengerChats<T extends Prisma.User$passengerChatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passengerChatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  messages<T extends Prisma.User$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1602,7 +3039,7 @@ export interface UserFieldRefs {
   readonly isDriver: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly role: Prisma.FieldRef<"User", 'AuthRole'>
   readonly banned: Prisma.FieldRef<"User", 'Boolean'>
   readonly banReason: Prisma.FieldRef<"User", 'String'>
   readonly banExpires: Prisma.FieldRef<"User", 'DateTime'>
@@ -2092,6 +3529,198 @@ export type User$invitationsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.InvitationScalarFieldEnum | Prisma.InvitationScalarFieldEnum[]
+}
+
+/**
+ * User.vehicles
+ */
+export type User$vehiclesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vehicle
+   */
+  select?: Prisma.VehicleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vehicle
+   */
+  omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  where?: Prisma.VehicleWhereInput
+  orderBy?: Prisma.VehicleOrderByWithRelationInput | Prisma.VehicleOrderByWithRelationInput[]
+  cursor?: Prisma.VehicleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VehicleScalarFieldEnum | Prisma.VehicleScalarFieldEnum[]
+}
+
+/**
+ * User.driverRequests
+ */
+export type User$driverRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DriverRequest
+   */
+  select?: Prisma.DriverRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DriverRequest
+   */
+  omit?: Prisma.DriverRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverRequestInclude<ExtArgs> | null
+  where?: Prisma.DriverRequestWhereInput
+  orderBy?: Prisma.DriverRequestOrderByWithRelationInput | Prisma.DriverRequestOrderByWithRelationInput[]
+  cursor?: Prisma.DriverRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DriverRequestScalarFieldEnum | Prisma.DriverRequestScalarFieldEnum[]
+}
+
+/**
+ * User.driverSchedules
+ */
+export type User$driverSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DriverSchedule
+   */
+  select?: Prisma.DriverScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DriverSchedule
+   */
+  omit?: Prisma.DriverScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverScheduleInclude<ExtArgs> | null
+  where?: Prisma.DriverScheduleWhereInput
+  orderBy?: Prisma.DriverScheduleOrderByWithRelationInput | Prisma.DriverScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.DriverScheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DriverScheduleScalarFieldEnum | Prisma.DriverScheduleScalarFieldEnum[]
+}
+
+/**
+ * User.userRides
+ */
+export type User$userRidesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserRide
+   */
+  select?: Prisma.UserRideSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserRide
+   */
+  omit?: Prisma.UserRideOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserRideInclude<ExtArgs> | null
+  where?: Prisma.UserRideWhereInput
+  orderBy?: Prisma.UserRideOrderByWithRelationInput | Prisma.UserRideOrderByWithRelationInput[]
+  cursor?: Prisma.UserRideWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserRideScalarFieldEnum | Prisma.UserRideScalarFieldEnum[]
+}
+
+/**
+ * User.scheduleRequests
+ */
+export type User$scheduleRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleRequest
+   */
+  select?: Prisma.ScheduleRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleRequest
+   */
+  omit?: Prisma.ScheduleRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleRequestInclude<ExtArgs> | null
+  where?: Prisma.ScheduleRequestWhereInput
+  orderBy?: Prisma.ScheduleRequestOrderByWithRelationInput | Prisma.ScheduleRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleRequestScalarFieldEnum | Prisma.ScheduleRequestScalarFieldEnum[]
+}
+
+/**
+ * User.driverChats
+ */
+export type User$driverChatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chat
+   */
+  select?: Prisma.ChatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chat
+   */
+  omit?: Prisma.ChatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatInclude<ExtArgs> | null
+  where?: Prisma.ChatWhereInput
+  orderBy?: Prisma.ChatOrderByWithRelationInput | Prisma.ChatOrderByWithRelationInput[]
+  cursor?: Prisma.ChatWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatScalarFieldEnum | Prisma.ChatScalarFieldEnum[]
+}
+
+/**
+ * User.passengerChats
+ */
+export type User$passengerChatsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Chat
+   */
+  select?: Prisma.ChatSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Chat
+   */
+  omit?: Prisma.ChatOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatInclude<ExtArgs> | null
+  where?: Prisma.ChatWhereInput
+  orderBy?: Prisma.ChatOrderByWithRelationInput | Prisma.ChatOrderByWithRelationInput[]
+  cursor?: Prisma.ChatWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatScalarFieldEnum | Prisma.ChatScalarFieldEnum[]
+}
+
+/**
+ * User.messages
+ */
+export type User$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
 }
 
 /**

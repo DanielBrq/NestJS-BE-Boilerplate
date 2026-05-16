@@ -23,7 +23,8 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:test:migrate": "node scripts/prisma-test.js migrate deploy",
-    "db:test:push": "node scripts/prisma-test.js db push"
+    "db:test:push": "node scripts/prisma-test.js db push",
+    "db:seed:admin": "node dist/scripts/admin-seed.js"
   },
   "dependencies": {
     "@fastify/helmet": "^13.0.2",

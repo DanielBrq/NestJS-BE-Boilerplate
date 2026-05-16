@@ -58,7 +58,13 @@ export const ModelName = {
   Organization: 'Organization',
   Member: 'Member',
   Invitation: 'Invitation',
-  Vehicle: 'Vehicle'
+  Vehicle: 'Vehicle',
+  DriverRequest: 'DriverRequest',
+  DriverSchedule: 'DriverSchedule',
+  UserRide: 'UserRide',
+  ScheduleRequest: 'ScheduleRequest',
+  Chat: 'Chat',
+  Message: 'Message'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -184,10 +190,104 @@ export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof
 
 export const VehicleScalarFieldEnum = {
   id: 'id',
-  plate: 'plate'
+  userId: 'userId',
+  image: 'image',
+  plate: 'plate',
+  brand: 'brand',
+  model: 'model',
+  color: 'color',
+  doors: 'doors',
+  isActive: 'isActive'
 } as const
 
 export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
+
+
+export const DriverRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  vehicleId: 'vehicleId',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverRequestScalarFieldEnum = (typeof DriverRequestScalarFieldEnum)[keyof typeof DriverRequestScalarFieldEnum]
+
+
+export const DriverScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  vehicleId: 'vehicleId',
+  title: 'title',
+  body: 'body',
+  scheduleType: 'scheduleType',
+  daysOfWeek: 'daysOfWeek',
+  maxPassengers: 'maxPassengers',
+  currentPassengers: 'currentPassengers',
+  fromPlaceName: 'fromPlaceName',
+  fromPlaceCoords: 'fromPlaceCoords',
+  fromPlaceDateTime: 'fromPlaceDateTime',
+  toPlaceName: 'toPlaceName',
+  toPlaceCoords: 'toPlaceCoords',
+  isScheduleAvailable: 'isScheduleAvailable',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverScheduleScalarFieldEnum = (typeof DriverScheduleScalarFieldEnum)[keyof typeof DriverScheduleScalarFieldEnum]
+
+
+export const UserRideScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  driverScheduleId: 'driverScheduleId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserRideScalarFieldEnum = (typeof UserRideScalarFieldEnum)[keyof typeof UserRideScalarFieldEnum]
+
+
+export const ScheduleRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  driverScheduleId: 'driverScheduleId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleRequestScalarFieldEnum = (typeof ScheduleRequestScalarFieldEnum)[keyof typeof ScheduleRequestScalarFieldEnum]
+
+
+export const ChatScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  uniqueKey: 'uniqueKey',
+  driverScheduleId: 'driverScheduleId',
+  userDriverId: 'userDriverId',
+  userPassengerId: 'userPassengerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  chatId: 'chatId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -81,3 +81,33 @@ export type Invitation = Prisma.InvitationModel
  * 
  */
 export type Vehicle = Prisma.VehicleModel
+/**
+ * Model DriverRequest
+ * 
+ */
+export type DriverRequest = Prisma.DriverRequestModel
+/**
+ * Model DriverSchedule
+ * 
+ */
+export type DriverSchedule = Prisma.DriverScheduleModel
+/**
+ * Model UserRide
+ * 
+ */
+export type UserRide = Prisma.UserRideModel
+/**
+ * Model ScheduleRequest
+ * 
+ */
+export type ScheduleRequest = Prisma.ScheduleRequestModel
+/**
+ * Model Chat
+ * 
+ */
+export type Chat = Prisma.ChatModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
