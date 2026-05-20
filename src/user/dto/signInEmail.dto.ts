@@ -1,16 +1,26 @@
 // =========== Imports ===========
-import vine from '@vinejs/vine';
+import * as v from 'valibot';
 import { ApiProperty } from '@nestjs/swagger';
-import type { Infer } from '@vinejs/vine/types';
 
 // =========== Schema ===========
-export const SignInEmailSchema = vine.object({
-  email: vine.string().email().maxLength(50).toLowerCase().trim(),
-  password: vine.string().minLength(8).maxLength(16).trim(),
+export const SignInEmailSchema = v.object({
+  email: v.pipe(
+    v.string('El correo debe ser un texto'),
+    v.trim(),
+    v.toLowerCase(),
+    v.email('Formato de correo inválido'),
+    v.maxLength(50, 'El correo no puede tener más de 50 caracteres'),
+  ),
+  password: v.pipe(
+    v.string('La contraseña debe ser un texto'),
+    v.trim(),
+    v.minLength(8, 'La contraseña debe tener al menos 8 caracteres'),
+    v.maxLength(16, 'La contraseña no puede tener más de 16 caracteres'),
+  ),
 });
 
 // =========== Type ===========
-export type SignInEmailDto = Infer<typeof SignInEmailSchema>;
+export type SignInEmailDto = v.InferOutput<typeof SignInEmailSchema>;
 
 // =========== DTO ===========
 export class SignInEmailBodyDto {

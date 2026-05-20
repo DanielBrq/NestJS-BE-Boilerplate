@@ -9,7 +9,7 @@ Implement only requested. No scope creep.
 - **Compiler**: SWC.
 - **ORM**: Prisma V7 + PostgreSQL. Client in `src/generated/prisma`.
 - **Auth**: `better-auth` + pg adapter + web req translation for Fastify.
-- **Validation**: **VineJS** (`@vinejs/vine`). No `class-validator`. Use `VineValidationPipe`.
+- **Validation**: **Valibot** (`valibot`). No `class-validator` / `vine`. Use `ValibotValidationPipe`.
 - **Docs**: Swagger/OpenAPI.
 
 ## Scope & Restrict

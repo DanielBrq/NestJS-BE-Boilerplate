@@ -7,7 +7,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// ====== Better Auth Schema ======
+// ====== Enums ======
 
 enum AuthRole {
   user
@@ -17,25 +17,47 @@ enum AuthRole {
   superAdmin
 }
 
+enum OrganizationType {
+  free_zone
+  company
+}
+
+enum dayOfWeek {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
+
+enum scheduleType {
+  daily
+  weekly
+}
+
+// ====== Better Auth Schema ======
+
 model User {
-  id            String    @id @default(uuid(7))
+  id            String   @id @default(uuid(7))
   name          String
   email         String
-  nationalId    String    @unique @default("")
-  bornDate      DateTime  @default(now())
-  emailVerified Boolean   @default(false)
+  nationalId    String   @unique @default("")
+  bornDate      DateTime @default(now())
+  emailVerified Boolean  @default(false)
   image         String?
-  isDriver      Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  isDriver      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   role       AuthRole?
   banned     Boolean?  @default(false)
   banReason  String?
   banExpires DateTime?
 
+  sessions         Session[]
+  accounts         Account[]
   members          Member[]
   invitations      Invitation[]
   vehicles         Vehicle[]
@@ -104,10 +126,10 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id @default(uuid(7))
+  id          String           @id @default(uuid(7))
   name        String
   slug        String
-  type        String //free_zone,  company
+  type        OrganizationType
   logo        String?
   createdAt   DateTime
   metadata    String?
@@ -194,8 +216,8 @@ model DriverSchedule {
   vehicle             Vehicle           @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   title               String
   body                String
-  scheduleType        String            @default("daily") //daily, weekly
-  daysOfWeek          String[] // ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+  scheduleType        scheduleType      @default(weekly)
+  daysOfWeek          dayOfWeek[]       @default([])
   maxPassengers       Int               @default(1)
   currentPassengers   Int               @default(0)
   fromPlaceName       String?

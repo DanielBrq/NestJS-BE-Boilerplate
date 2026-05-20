@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from '@/user/user.service';
-import { VineValidationPipe } from '@/common/pipes/vine-validation.pipe';
+import { ValibotValidationPipe } from '@/common/pipes/valibot-validation.pipe';
 import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 import {
   CreateUserSchema,
@@ -31,7 +31,7 @@ export class UserController {
   @Post('sign-up')
   @HttpCode(201)
   @ApiBody({ type: CreateUserBodyDto })
-  @UsePipes(new VineValidationPipe(CreateUserSchema))
+  @UsePipes(new ValibotValidationPipe(CreateUserSchema))
   @AllowAnonymous()
   async signUpEmail(@Body() createUserDto: CreateUserDto) {
     return this.userService.signUpEmail(
@@ -45,7 +45,7 @@ export class UserController {
   @Post('sign-in')
   @HttpCode(200)
   @ApiBody({ type: SignInEmailBodyDto })
-  @UsePipes(new VineValidationPipe(SignInEmailSchema))
+  @UsePipes(new ValibotValidationPipe(SignInEmailSchema))
   @AllowAnonymous()
   async signInEmail(@Body() body: SignInEmailDto) {
     return this.userService.signInEmail(body.email, body.password);
